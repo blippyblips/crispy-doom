@@ -130,7 +130,7 @@ boolean EV_ClearForceFields(line_t* line);  // villsa [STRIFE]
 //
 // P_LIGHTS
 //
-typedef struct
+struct fireflicker_t
 {
     thinker_t	thinker;
     sector_t*	sector;
@@ -138,11 +138,11 @@ typedef struct
     int		maxlight;
     int		minlight;
     
-} fireflicker_t;
+};
 
 
 
-typedef struct
+struct lightflash_t
 {
     thinker_t	thinker;
     sector_t*	sector;
@@ -152,11 +152,11 @@ typedef struct
     int		maxtime;
     int		mintime;
     
-} lightflash_t;
+};
 
 
 
-typedef struct
+struct strobe_t
 {
     thinker_t	thinker;
     sector_t*	sector;
@@ -165,21 +165,19 @@ typedef struct
     int		maxlight;
     int		darktime;
     int		brighttime;
-    
-} strobe_t;
+};
 
 
 
 
-typedef struct
+struct glow_t
 {
     thinker_t	thinker;
     sector_t*	sector;
     int		minlight;
     int		maxlight;
     int		direction;
-
-} glow_t;
+};
 
 
 #define GLOWSPEED			8
@@ -215,26 +213,26 @@ void    P_SpawnGlowingLight(sector_t* sector);
 //
 // P_SWITCH
 //
-typedef struct
+struct switchlist_t
 {
     char	name1[9];
     char	name2[9];
     short	episode;
     int         sound;  // villsa [STRIFE]
 
-} switchlist_t;
+};
 
 
-typedef enum
+enum bwhere_e
 {
     top,
     middle,
     bottom
 
-} bwhere_e;
+};
 
 
-typedef struct
+struct button_t
 {
     line_t*	line;
     bwhere_e	where;
@@ -242,7 +240,7 @@ typedef struct
     int		btimer;
     degenmobj_t *soundorg;
 
-} button_t;
+};
 
 
 
@@ -269,18 +267,18 @@ void P_InitSwitchList(void);
 //
 // P_PLATS
 //
-typedef enum
+enum plat_e
 {
     up,
     down,
     waiting,
     in_stasis
 
-} plat_e;
+};
 
 
 
-typedef enum
+enum plattype_e
 {
     perpetualRaise,
     downWaitUpStay,
@@ -290,11 +288,11 @@ typedef enum
     blazeDWUS,
     upWaitDownStay      // villsa [STRIFE]
 
-} plattype_e;
+};
 
 
 
-typedef struct
+struct plat_t
 {
     thinker_t	thinker;
     sector_t*	sector;
@@ -309,7 +307,7 @@ typedef struct
     int		tag;
     plattype_e	type;
     
-} plat_t;
+};
 
 
 
@@ -355,7 +353,7 @@ typedef enum
 
 
 
-typedef struct
+struct vldoor_t
 {
     thinker_t   thinker;
     vldoor_e    type;
@@ -378,7 +376,7 @@ typedef struct
     // villsa [STRIFE] new field - sound to play when closing
     int         closesound;
     
-} vldoor_t;
+};
 
 
 
@@ -494,7 +492,7 @@ int EV_RemoteSlidingDoor(line_t* line, mobj_t* thing);
 //
 // P_CEILNG
 //
-typedef enum
+enum ceiling_e
 {
     lowerToFloor,
     raiseToHighest,
@@ -502,12 +500,11 @@ typedef enum
     crushAndRaise,
     fastCrushAndRaise,
     silentCrushAndRaise
-
-} ceiling_e;
-
+};
 
 
-typedef struct
+
+struct ceiling_t
 {
     thinker_t	thinker;
     ceiling_e	type;
@@ -524,7 +521,7 @@ typedef struct
     int		tag;                   
     int		olddirection;
     
-} ceiling_t;
+};
 
 
 
@@ -601,7 +598,7 @@ typedef enum
 
 
 
-typedef struct
+struct floormove_t
 {
     thinker_t	thinker;
     floor_e	type;
@@ -613,7 +610,7 @@ typedef struct
     fixed_t	floordestheight;
     fixed_t	speed;
 
-} floormove_t;
+};
 
 
 

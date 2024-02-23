@@ -52,7 +52,7 @@
 // Returns a pointer to a DIR structure appropriately filled in to begin
 // searching a directory.
 //
-DIR *opendir(const _TCHAR *szPath)
+DIR *opendir(const char* *szPath)
 {
    DIR *nd;
    unsigned int rc;
@@ -73,7 +73,7 @@ DIR *opendir(const _TCHAR *szPath)
    }
 
    /* Attempt to determine if the given path really is a directory. */
-   rc = GetFileAttributes(szPath);
+   rc = GetFileAttributesA(szPath);
    if(rc == (unsigned int)-1)
    {
       /* call GetLastError for more error info */

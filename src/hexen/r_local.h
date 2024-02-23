@@ -18,7 +18,9 @@
 #ifndef __R_LOCAL__
 #define __R_LOCAL__
 
+#include "hexen/h2def.h"
 #include "i_video.h"
+#include "tables.h"
 
 #define ANGLETOSKYSHIFT         22      // sky map is 256*128*4 maps
 
@@ -209,13 +211,13 @@ typedef struct polyblock_s
     struct polyblock_s *next;
 } polyblock_t;
 
-typedef struct subsector_s
+struct subsector_t
 {
     sector_t *sector;
     short numlines;
     short firstline;
     polyobj_t *poly;
-} subsector_t;
+};
 
 typedef struct
 {
@@ -293,7 +295,7 @@ typedef struct vissprite_s
     const byte *brightmap;
     int mobjflags;              // for color translation and shadow draw
     boolean psprite;            // true if psprite
-    int class;                  // player class (used in translation)
+    int _class;                  // player class (used in translation)
     fixed_t floorclip;
 #ifdef CRISPY_TRUECOLOR
     const pixel_t (*blendfunc)(const pixel_t fg, const pixel_t bg);

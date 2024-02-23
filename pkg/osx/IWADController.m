@@ -399,7 +399,7 @@ static const char *NameForIWAD(IWAD iwad)
 
     // Load into environment:
 
-    putenv(env);
+    _putenv(env);
 
     //free(env);
 }

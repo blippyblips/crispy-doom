@@ -37,7 +37,7 @@ void SetProgramLocation(const char *path)
 {
     char *p;
 
-    executable_path = strdup(path);
+    executable_path = _strdup(path);
 
     p = strrchr(executable_path, '/');
     *p = '\0';

@@ -20,11 +20,25 @@
 #ifndef __P_INTER__
 #define __P_INTER__
 
+#include "doomdef.h"
+#include "dstrings.h"
 
-
+struct player_t;
 
 boolean	P_GivePower(player_t*, int);
 
-
+// [crispy] show weapon pickup messages in multiplayer games
+static constexpr const char *const WeaponPickupMessages[NUMWEAPONS] =
+{
+	0, // wp_fist
+	0, // wp_pistol
+	GOTSHOTGUN,
+	GOTCHAINGUN,
+	GOTLAUNCHER,
+	GOTPLASMA,
+	GOTBFG9000,
+	GOTCHAINSAW,
+	GOTSHOTGUN2,
+};
 
 #endif

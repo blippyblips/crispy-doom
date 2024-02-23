@@ -1,7 +1,30 @@
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+cmake_minimum_required(VERSION 3.27)
 
-cmake_minimum_required(VERSION 3.7.2)
-project("Crispy Doom" VERSION 6.0.0 LANGUAGES C)
+if (POLICY CMP0025)
+cmake_policy(SET CMP0025 NEW)
+endif ()
+
+include(cmake/automate-vcpkg.cmake)
+vcpkg_bootstrap()
+
+project("Crispy Doom" VERSION 6.0.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+#set(CMAKE_CXX_STANDARD_REQUIRED ON)
+#set(CMAKE_CXX_EXTENSIONS OFF CACHE INTERNAL "" FORCE)
+
+if (MSVC)
+string(REGEX REPLACE "/W[3|4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+else()
+add_compile_options("-Wno-writable-strings")
+endif()
+
+add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+add_compile_definitions(_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS=1)
+add_compile_definitions(__STDC_WANT_LIB_EXT1__=1)
+add_compile_definitions(LIBCXX_ENABLE_INCOMPLETE_FEATURES=ON)
+add_compile_definitions(_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING=1)
 
 # Autotools variables
 set(top_srcdir ${CMAKE_CURRENT_SOURCE_DIR})
@@ -73,7 +96,8 @@ include(CheckSymbolExists)
 include(CheckIncludeFile)
 check_symbol_exists(strcasecmp "strings.h" HAVE_DECL_STRCASECMP)
 check_symbol_exists(strncasecmp "strings.h" HAVE_DECL_STRNCASECMP)
-check_include_file("dirent.h" HAVE_DIRENT_H)
+#check_include_file("dirent.h" HAVE_DIRENT_H)
+set(HAVE_DIRENT_H True)
 
 string(CONCAT WINDOWS_RC_VERSION "${PROJECT_VERSION_MAJOR}, "
     "${PROJECT_VERSION_MINOR}, ${PROJECT_VERSION_PATCH}, 0")
@@ -93,6 +117,7 @@ configure_file(src/setup-res.rc.in src/setup-res.rc)
 configure_file(src/setup/setup-manifest.xml.in src/setup/setup-manifest.xml)
 configure_file(src/strife-res.rc.in src/strife-res.rc)
 
-foreach(SUBDIR textscreen opl pcsound src)
+add_subdirectory("textscreen")
+foreach(SUBDIR opl pcsound src)
     add_subdirectory("${SUBDIR}")
 endforeach()

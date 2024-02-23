@@ -255,13 +255,12 @@ typedef struct line_s
 //  indicating the visible walls that define
 //  (all or some) sides of a convex BSP leaf.
 //
-typedef struct subsector_s
+struct subsector_t
 {
     sector_t*	sector;
     short	numlines;
     short	firstline;
-    
-} subsector_t;
+};
 
 
 

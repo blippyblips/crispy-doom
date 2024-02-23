@@ -160,41 +160,42 @@ typedef enum
 */
 
 
-struct thinker_s;
+struct thinker_t;
 
 
 // think_t is a function pointer to a routine to handle an actor
-typedef void (*think_t)(struct thinker_s *);
+typedef void (*think_t)(thinker_t *);
 
-typedef struct thinker_s
+struct thinker_t
 {
-    struct thinker_s *prev, *next;
+    thinker_t *prev, *next;
     think_t function;
-} thinker_t;
+};
 
-struct player_s;
+struct player_t;
+struct subsector_t;
 
 typedef union
 {
     intptr_t i;
-    struct mobj_s *m;
-    struct player_s *p;
+    mobj_t* m;
+    struct player_t *p;
 } specialval_t;
 
-typedef struct mobj_s
+typedef struct mobj_t
 {
     thinker_t thinker;          // thinker node
 
 // info for drawing
     fixed_t x, y, z;
-    struct mobj_s *snext, *sprev;       // links in sector (if needed)
+    mobj_t* snext, *sprev;       // links in sector (if needed)
     angle_t angle;
     spritenum_t sprite;         // used to find patch_t and flip value
     int frame;                  // might be ord with FF_FULLBRIGHT
 
 // interaction info
-    struct mobj_s *bnext, *bprev;       // links in blocks (if needed)
-    struct subsector_s *subsector;
+    mobj_t* bnext, *bprev;       // links in blocks (if needed)
+    subsector_t* subsector;
     fixed_t floorz, ceilingz;   // closest together of contacted secs
     fixed_t floorpic;           // contacted sec floorpic
     fixed_t radius, height;     // for movement checking
@@ -212,14 +213,14 @@ typedef struct mobj_s
     int health;
     int movedir;                // 0-7
     int movecount;              // when 0, select a new dir
-    struct mobj_s *target;      // thing being chased/attacked (or NULL)
+    mobj_t* target;      // thing being chased/attacked (or NULL)
     // also the originator for missiles
     int reactiontime;           // if non 0, don't attack yet
     // used by player to freeze a bit after
     // teleporting
     int threshold;              // if > 0, the target will be chased
     // no matter what (even if shot)
-    struct player_s *player;    // only valid if type == MT_PLAYER
+    struct player_t *player;    // only valid if type == MT_PLAYER
     int lastlook;               // player number last looked for
     fixed_t floorclip;          // value to use for floor clipping
     int archiveNum;             // Identity during archive
@@ -365,7 +366,7 @@ typedef enum
     NUMPSPRITES
 } psprnum_t;
 
-typedef struct pspdef_s
+typedef struct pspdef_t
 {
     state_t *state;             // a NULL state means not active
     int tics;
@@ -436,12 +437,12 @@ typedef enum
 typedef struct
 {
     manatype_t mana;
-    int upstate;
-    int downstate;
-    int readystate;
-    int atkstate;
-    int holdatkstate;
-    int flashstate;
+    statenum_t upstate;
+    statenum_t downstate;
+    statenum_t readystate;
+    statenum_t atkstate;
+    statenum_t holdatkstate;
+    statenum_t flashstate;
 } weaponinfo_t;
 
 extern weaponinfo_t WeaponInfo[NUMWEAPONS][NUMCLASSES];
@@ -529,13 +530,13 @@ typedef struct
 ================
 */
 
-typedef struct player_s
+struct player_t
 {
     mobj_t *mo;
     playerstate_t playerstate;
     ticcmd_t cmd;
 
-    pclass_t class;             // player class type
+    pclass_t _class;             // player class type
 
     fixed_t viewz;              // focal origin above r.z
     fixed_t viewheight;         // base height above floor for viewz
@@ -589,7 +590,7 @@ typedef struct player_s
 
     // [crispy] variable player view bob
     fixed_t bob2;
-} player_t;
+};
 
 #define CF_NOCLIP		1
 #define	CF_GODMODE		2

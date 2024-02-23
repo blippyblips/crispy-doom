@@ -58,6 +58,7 @@
 #include "d_ticcmd.h"
 
 #include "d_loop.h"
+//#include "r_local.h"
 
 #define	SAVEGAMENAME "hticsav"
 
@@ -128,39 +129,40 @@ typedef enum
 */
 
 
-struct thinker_s;
+struct thinker_t;
 
 // think_t is a function pointer to a routine to handle an actor
-typedef void (*think_t) (struct thinker_s *);
+typedef void (*think_t) (thinker_t *);
 
-typedef struct thinker_s
+struct thinker_t
 {
-    struct thinker_s *prev, *next;
+    thinker_t *prev, *next;
     think_t function;
-} thinker_t;
+};
 
 typedef union
 {
     int i;
-    struct mobj_s *m;
+    mobj_t* m;
 } specialval_t;
 
-struct player_s;
+struct player_t;
+struct subsector_t;
 
-typedef struct mobj_s
+struct mobj_t
 {
     thinker_t thinker;          // thinker links
 
 // info for drawing
     fixed_t x, y, z;
-    struct mobj_s *snext, *sprev;       // links in sector (if needed)
+    mobj_t *snext, *sprev;       // links in sector (if needed)
     angle_t angle;
     spritenum_t sprite;         // used to find patch_t and flip value
     int frame;                  // might be ord with FF_FULLBRIGHT
 
 // interaction info
-    struct mobj_s *bnext, *bprev;       // links in blocks (if needed)
-    struct subsector_s *subsector;
+    mobj_t *bnext, *bprev;       // links in blocks (if needed)
+    subsector_t* subsector;
     fixed_t floorz, ceilingz;   // closest together of contacted secs
     fixed_t radius, height;     // for movement checking
     fixed_t momx, momy, momz;   // momentums
@@ -179,14 +181,14 @@ typedef struct mobj_s
     int health;
     int movedir;                // 0-7
     int movecount;              // when 0, select a new dir
-    struct mobj_s *target;      // thing being chased/attacked (or NULL)
+    mobj_t* target;      // thing being chased/attacked (or NULL)
     // also the originator for missiles
     int reactiontime;           // if non 0, don't attack yet
     // used by player to freeze a bit after
     // teleporting
     int threshold;              // if >0, the target will be chased
     // no matter what (even if shot)
-    struct player_s *player;    // only valid if type == MT_PLAYER
+    player_t *player;    // only valid if type == MT_PLAYER
     int lastlook;               // player number last looked for
 
     mapthing_t spawnpoint;      // for nightmare respawn
@@ -200,14 +202,14 @@ typedef struct mobj_s
     fixed_t		oldy;
     fixed_t		oldz;
     angle_t		oldangle;
-} mobj_t;
+};
 
 // each sector has a degenmobj_t in it's center for sound origin purposes
-typedef struct
+struct degenmobj_t
 {
     thinker_t thinker;          // not used for anything
     fixed_t x, y, z;
-} degenmobj_t;
+};
 
 //
 // frame flags
@@ -303,13 +305,13 @@ typedef enum
     NUMPSPRITES
 } psprnum_t;
 
-typedef struct pspdef_s
+struct pspdef_t
 {
     state_t *state;             // a NULL state means not active
     int tics;
     fixed_t sx, sy;
     fixed_t sx2, sy2; // [crispy] variable weapon sprite bob
-} pspdef_t;
+};
 
 typedef enum
 {
@@ -362,12 +364,12 @@ typedef enum
 typedef struct
 {
     ammotype_t ammo;
-    int upstate;
-    int downstate;
-    int readystate;
-    int atkstate;
-    int holdatkstate;
-    int flashstate;
+    statenum_t upstate;
+    statenum_t downstate;
+    statenum_t readystate;
+    statenum_t atkstate;
+    statenum_t holdatkstate;
+    statenum_t flashstate;
 } weaponinfo_t;
 
 extern weaponinfo_t wpnlev1info[NUMWEAPONS];
@@ -430,7 +432,7 @@ typedef struct
 ================
 */
 
-typedef struct player_s
+struct player_t
 {
     mobj_t *mo;
     playerstate_t playerstate;
@@ -492,7 +494,7 @@ typedef struct player_s
 
     // [crispy] variable player view bob
     fixed_t bob2;
-} player_t;
+};
 
 #define CF_NOCLIP		1
 #define	CF_GODMODE		2

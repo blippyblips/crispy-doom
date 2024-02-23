@@ -3172,9 +3172,9 @@ typedef enum
 } statenum_t;
 
 
-struct mobj_s;
-struct player_s;
-struct pspdef_s;
+struct mobj_t;
+struct player_t;
+struct pspdef_t;
 
 
 typedef struct
@@ -3182,7 +3182,7 @@ typedef struct
     spritenum_t sprite;
     int frame;
     int tics;
-    void (*action) (struct mobj_s *, struct player_s *, struct pspdef_s *);
+    void (*action) (mobj_t* , struct player_t *, struct pspdef_t *);
     statenum_t nextstate;
     int misc1, misc2;
 } state_t;
@@ -3598,20 +3598,20 @@ typedef enum
 typedef struct
 {
     int doomednum;
-    int spawnstate;
+    statenum_t spawnstate;
     int spawnhealth;
-    int seestate;
+    statenum_t seestate;
     int seesound;
     int reactiontime;
     int attacksound;
-    int painstate;
+    statenum_t painstate;
     int painchance;
     int painsound;
-    int meleestate;
-    int missilestate;
-    int crashstate;
-    int deathstate;
-    int xdeathstate;
+    statenum_t meleestate;
+    statenum_t missilestate;
+    statenum_t crashstate;
+    statenum_t deathstate;
+    statenum_t xdeathstate;
     int deathsound;
     int speed;
     int radius;

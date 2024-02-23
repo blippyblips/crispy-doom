@@ -15,6 +15,10 @@
 #ifndef TXT_TABLE_H
 #define TXT_TABLE_H
 
+//#if defined(__cplusplus)
+//extern "C" {
+//#endif
+
 /**
  * @file txt_table.h
  *
@@ -240,6 +244,9 @@ void TXT_ClearTable(TXT_UNCAST_ARG(table));
 
 int TXT_PageTable(TXT_UNCAST_ARG(table), int pagex, int pagey);
 
+//#if defined(__cplusplus)
+//}
+//#endif
 #endif /* #ifndef TXT_TABLE_T */
 
 

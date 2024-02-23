@@ -20,6 +20,10 @@
 #ifndef __P_LOCAL__
 #define __P_LOCAL__
 
+#ifndef __DOOMDEF__
+#include "doomdef.h"
+#endif
+
 #ifndef __R_LOCAL__
 #include "r_local.h"
 #endif

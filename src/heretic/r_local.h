@@ -18,9 +18,11 @@
 #ifndef __R_LOCAL__
 #define __R_LOCAL__
 
-#include "doomdef.h"
 #include "i_video.h"
 #include "v_patch.h"
+#include "doomdef.h"
+
+typedef unsigned int angle_t;
 
 #define PL_SKYFLAT (0x80000000)
 #define	ANGLETOSKYSHIFT		22      // sky map is 256*128*4 maps
@@ -77,8 +79,11 @@ typedef struct
 } vertex_t;
 
 struct line_s;
+struct mobj_t;
+struct degenmobj_t;
+struct player_t;
 
-typedef struct
+struct sector_t
 {
     fixed_t floorheight, ceilingheight;
     short floorpic, ceilingpic;
@@ -120,7 +125,7 @@ typedef struct
     //      the renderer.
     fixed_t	interpfloorheight;
     fixed_t	interpceilingheight;
-} sector_t;
+};
 
 typedef struct
 {
@@ -152,12 +157,12 @@ typedef struct line_s
 } line_t;
 
 
-typedef struct subsector_s
+struct subsector_t
 {
     sector_t *sector;
     int numlines; // [crispy] extended nodes
     int firstline; // [crispy] extended nodes
-} subsector_t;
+};
 
 typedef struct
 {
@@ -312,6 +317,10 @@ extern player_t *viewplayer;
 
 
 extern angle_t clipangle;
+
+#ifndef FINEANGLES
+#define FINEANGLES		8192
+#endif
 
 extern int viewangletox[FINEANGLES / 2];
 extern angle_t xtoviewangle[MAXWIDTH + 1];

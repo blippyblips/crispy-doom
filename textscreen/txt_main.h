@@ -23,6 +23,9 @@
 
 #include "txt_sdl.h"
 
+//#if defined(__cplusplus)
+//extern "C" {
+//#endif
 // textscreen key values:
 // Key values are difficult because we have to support multiple conflicting
 // address spaces.
@@ -198,6 +201,10 @@ int TXT_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args);
 
 // Safe version of snprintf().
 int TXT_snprintf(char *buf, size_t buf_len, const char *s, ...) PRINTF_ATTR(3, 4);
+
+//#if defined(__cplusplus)
+//}
+//#endif
 
 #endif /* #ifndef TXT_MAIN_H */
 
